@@ -44,3 +44,5 @@ npm-debug.log*
 # Lockfiles
 package-lock.json
 yarn.lock
+
+eng.traineddata

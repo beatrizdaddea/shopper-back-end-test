@@ -5,7 +5,7 @@ export const aiConfig = {
   // These Gemini models are updated upto September 2021
   gemini: {
     textAndImageModel: "gemini-1.5-flash",
-    apiKey: "API_KEY",
+    apiKey: "AIzaSyDPug4MDRX_XctSJefKlPTRwcw_vsHPSZs",
 
     // Gemini Safety Settings
     // Explore all Harm categories here -> https://ai.google.dev/api/rest/v1beta/HarmCategory

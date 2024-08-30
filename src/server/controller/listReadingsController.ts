@@ -36,7 +36,7 @@ export const listReadingsController = async (req: Request, res: Response) => {
       measure_uuid: reading.guid,
       measure_datetime: reading.measure_datetime,
       measure_type: reading.measure_type,
-      has_confirmed: true, // Ajuste conforme a lógica de confirmação
+      has_confirmed: true,
       image_url: reading.image_link,
     }));
 

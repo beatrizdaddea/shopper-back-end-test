@@ -1,9 +1,13 @@
-import { Router } from 'express';
-import { aiController } from '../controller/aiController';
-import { validateRequestBody } from '../middleware/validation';
+import express from "express";
+import { aiController } from "../controller/aiController";
+import { listReadingsController } from "../controller/listReadingsController";
+import { confirmReading } from "../controller/patchReadingController";
+import { validateRequestBody } from "../middleware/validation";
 
-const router = Router();
+const router = express.Router();
 
-router.post('/water-gas-reading', validateRequestBody, aiController);
+router.post("/water-gas-reading", validateRequestBody, aiController);
+router.get("/water-gas-reading/:customer_code/list", listReadingsController);
+router.patch("/water-gas-reading/confirm", confirmReading);
 
 export default router;

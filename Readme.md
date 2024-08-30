@@ -21,17 +21,27 @@ Esta API foi desenvolvida para gerenciar e processar leituras de consumo de águ
     cd <NOME_DO_REPOSITORIO>
    ```
 
+2. **GEMINI_API_KEY:** No aquivo ``` aiConfig ``` substitua <API_KEY> com a sua chave do Gemini
+
+3. **Build o Docker Image:**
+   ```bash
+    docker compose build
+   ```
+
+4. **Rodar Aplicação:**
+   ```bash
+    docker compose up
+   ```
+
 
 ## Endpoints
 ### POST
 
 Submete uma nova leitura de consumo de água ou gás.
 
-- url: 
+**URL:** `http://localhost:3000/water-gas-reading`
 
-```bash
-  http://localhost:3000/water-gas-reading
-```
+**Método:** `POST`
 
 - params: 
 
@@ -43,13 +53,14 @@ Submete uma nova leitura de consumo de água ou gás.
     "measure_type": "WATER" ou "GAS"
   }
 ```
+
 ## PATCH /confirm
 
 Este endpoint é responsável por confirmar ou corrigir o valor lido pelo LLM.
 
 ### Request
 
-**URL:** `/confirm`
+**URL:** `http://localhost:3000/water-gas-reading/confirm`
 
 **Método:** `PATCH`
 
@@ -67,9 +78,12 @@ Lista todas as leituras realizadas por um cliente. Pode opcionalmente filtrar po
 
 Query Parameters:
 
+**URL:** `http://localhost:3000/water-gas-reading/customer_code/list?measure_type=GAS`
 - measure_type (opcional): "WATER" ou "GAS"
-- url: 
 
-```bash
-  http://localhost:3000/customer_code/list?measure_type=GAS
-```
+**Método:** `GET`
+
+## Melhorias
+- Fazer o measure_value voltar como integer
+- Refazer o método PATCH para que consiga corrigir o valor lido pelo LLM
+- Criar um arquivo .env na raíz do projeto para ler a API_KEY do Gemini

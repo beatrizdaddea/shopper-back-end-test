@@ -9,6 +9,7 @@ class Reading extends Model {
   public customer_code!: string;
   public measure_datetime!: Date;
   public measure_type!: string;
+  public confirmed_value?: number;
 }
 
 Reading.init({

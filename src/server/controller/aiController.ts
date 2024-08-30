@@ -27,6 +27,18 @@ const performOcr = async (base64String: string) => {
   }
 };
 
+function extractRoundedNumber(str: string): number {
+  // Remove caracteres que não sejam dígitos, pontos ou vírgulas
+  const cleanedStr = str.replace(/[^\d.,]/g, '');
+  // Substitui vírgula por ponto, caso a string use vírgula como separador decimal
+  const normalizedStr = cleanedStr.replace(',', '.');
+  // Converte a string resultante em um número de ponto flutuante
+  const floatNumber = parseFloat(normalizedStr);
+  // Retorna o número arredondado
+  return Math.round(floatNumber);
+}
+
+
 export const aiController = async (req: Request, res: Response) => {
   const { image, customer_code, measure_datetime, measure_type } = req.body;
 
@@ -62,11 +74,14 @@ export const aiController = async (req: Request, res: Response) => {
   try {
     const base64Image = await imageUrlToBase64(image);
     const extractedText = await performOcr(base64Image);
-    const extractedValue = await extractValueFromImage(extractedText, `Extract ${measure_type} reading from image and return as json, this data may be in Portuguese`);
+    const extractedValue = await extractValueFromImage(extractedText, `Extract ${measure_type} reading from image and return just the value without additional text, this data may be in Portuguese`);
 
     if (!extractedValue) {
       return res.status(500).json({ error: "Failed to extract value from image" });
     }
+
+    console.log("Extracted value: ", extractedValue)
+    const reading_value = extractRoundedNumber(extractedValue)
 
     const existingReading = await Reading.findOne({
       where: {
@@ -77,6 +92,7 @@ export const aiController = async (req: Request, res: Response) => {
     });
 
     if (existingReading) {
+      console.log("Existing: ", existingReading)
       return res.status(409).json({
         error_code: "DOUBLE_REPORT",
         error_description: "Leitura do mês já realizada"
@@ -89,7 +105,7 @@ export const aiController = async (req: Request, res: Response) => {
     await Reading.create({
       image_link: temporaryLink,
       guid: guid,
-      recognized_value: extractedValue,
+      recognized_value: reading_value,
       customer_code,
       measure_datetime,
       measure_type,

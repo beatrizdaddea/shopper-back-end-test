@@ -27,7 +27,7 @@ Reading.init({
     allowNull: false,
   },
   recognized_value: {
-    type: DataTypes.FLOAT,
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
   customer_code: {
@@ -41,6 +41,10 @@ Reading.init({
   measure_type: {
     type: DataTypes.STRING,
     allowNull: false,
+  },
+  confimed_value: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
   },
 }, {
   sequelize,

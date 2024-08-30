@@ -22,7 +22,7 @@ export const confirmReading = async (req: Request, res: Response) => {
   try {
     // Verifica se a leitura existe
     const reading = await Reading.findOne({ where: { guid: measure_uuid } });
-
+    // console.log("Reading: ", reading)
     if (!reading) {
       return res.status(404).json({
         error_code: "MEASURE_NOT_FOUND",
@@ -31,7 +31,7 @@ export const confirmReading = async (req: Request, res: Response) => {
     }
 
     // Verifica se a leitura já foi confirmada
-    if (reading.getDataValue('confirmed_value') !== null) {
+    if (reading.getDataValue('confirmed_value') !== undefined) {
       return res.status(409).json({
         error_code: "CONFIRMATION_DUPLICATE",
         error_description: "Leitura já confirmada"
